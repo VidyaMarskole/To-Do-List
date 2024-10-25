@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #f3f4f6, #e0e7ff);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        /* Container Styles */
+        .task-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            transition: transform 0.3s;
+        }
+
+        .task-container:hover {
+            transform: scale(1.02);
+        }
+
+        /* Title Styles */
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.8em;
+            letter-spacing: 1px;
+        }
+
+        /* List Styles */
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 15px 0;
+        }
+
+        li {
+            padding: 2px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            background: #f9f9f9;
+            display:flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            transition: background 0.3s, transform 0.2s;
+            font-size: 0.95em; /* Slightly smaller font size */
+        }
+
+        li:hover {
+            background: #e1f5fe;
+            transform: translateY(-1px);
+        }
+
+        /* Form Styles */
+        form {
+            display: flex;
+            justify-content: space-between;
+            margin: 15px 0;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-right: 8px;
+            transition: border 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        /* Button Styles */
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.2s;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9em; /* Smaller button text */
+        }
+
+        button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        .clear-button {
+            background: #dc3545; /* Red color for clear button */
+        }
+
+        .clear-button:hover {
+            background: #c82333; /* Darker red on hover */
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 500px) {
+            .task-container {
+                width: 90%;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="task-container">
+        <h1>To-Do List</h1>
+        <form action="/add" method="POST">
+            <input type="text" name="task" placeholder="Enter your task here..." required>
+            <button type="submit">Add Task</button>
+        </form>
+        <ul>
+            {% for task in tasks %}
+                <li>
+                    {{ loop.index }}. {{ task }}
+                    <form action="/delete/{{ loop.index }}" method="POST" style="display:inline;">
+                        <button type="submit">Delete</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="/clear" method="POST">
+            <button type="submit" class="clear-button">Clear All Tasks</button>
+        </form>
+    </div>
+</body>
+</html>
